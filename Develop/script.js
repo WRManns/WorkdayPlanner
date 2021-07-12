@@ -1,57 +1,60 @@
+//Function is called when document is ready
 $(document).ready(function(){
-
-var today = moment().format('MMMM Do YYYY');
-var $todayDate = $('#currentDay');
-  $todayDate.text(today);
-
-var hours=["9 am", "10am", "11am", "12am", "1pm", "2pm", "3pm", "4pm", "5pm"]
-
-function createHours(hours) {
-    var hourBlock=document.createElement("div");
-    var inputBlock=document.createElement("textarea");
-    var saveBtn = document.createElement("button");
-
   
+  //saveBtn event listener and functionality
+$(".saveBtn").on("click", function(){
+  //Retrieve nearby values
+  var value = $(this).siblings(".description").val();
+  var time = $(this).parent().attr("id");
 
-    var div = document.createElement("div");
-      div.classList.add("time-block", "row");
-
-    inputBlock.textContent="";
-    hourBlock.textContent=hours;
-    saveBtn.textContent = "Save";
-
-    div.append(hourBlock);
-      hourBlock.classList.add("col-md-2","hour");
-    
-    div.append(inputBlock);
-      inputBlock.classList.add("col-md-9","description");
-
-    div.append(saveBtn);
-      saveBtn.classList.add("col-md-1","saveBtn");
+  //Save to local storage
+  localStorage.setItem(time, value);
+}) 
 
 
-      if (hourBlock < currentHour) {
-        inputBlock.classList.add("past");
-      } else if (hourBlock > currentHour) {
-        inputBlock.classList.add("future");
-      } else if (hourBlock===currentHour) {
-        inputBlock.classList.add("present");
+//Hour Updater
+function hourUpdater(){
+  //Retrieves the current number of hours from moment.js
+  var currentHour = moment().hours();
+  //Loops over time blocks
+  $(".time-block").each(function(){
+      var blockHour = parseInt($(this).attr("id").split("-")[1]);
+      //Check to see if the current hour is past the Time Block's hour
+      //And add the "past" class if true
+      if(blockHour < currentHour){
+          $(this).addClass("past");
       }
-
-
-
-    document.getElementById("plannerContainer").append(div);
-    
+      //Checks the time block to see if it matches the current hour
+      //If true, remove "past" class and add "present" class
+      else if(blockHour === currentHour){
+          $(this).removeClass("past");
+          $(this).addClass("present");
+      }
+      //If neither argument is true, removes any class and adds class of "future"
+      else
+      {
+          $(this).removeClass("past");
+          $(this).removeClass("present");
+          $(this).addClass("future");
+      }
+  });
 }
-var currentHour= moment().format('h a');
-console.log(currentHour);
 
-for(var i = 0; i < hours.length; i++){
-    createHours(hours[i])
-   
-}
+hourUpdater();
 
 
+//Checks Local Storage for saved data. If found, retrieves and displays
+$("#hour-9 .description").val(localStorage.getItem("hour-9"));
+$("#hour-10 .description").val(localStorage.getItem("hour-10"));
+$("#hour-11 .description").val(localStorage.getItem("hour-11"));
+$("#hour-12 .description").val(localStorage.getItem("hour-12"));
+$("#hour-13 .description").val(localStorage.getItem("hour-13"));
+$("#hour-14 .description").val(localStorage.getItem("hour-14"));
+$("#hour-15 .description").val(localStorage.getItem("hour-15"));
+$("#hour-16 .description").val(localStorage.getItem("hour-16"));
+$("#hour-17 .description").val(localStorage.getItem("hour-17"));
 
+//Current day display on page
 
-})
+$(".currentDay").text(moment().format("dddd, MMMM Do"));
+});
