@@ -26,11 +26,10 @@
 
     no installation needed. Runs in browser.
 
-    ## Usage
+    ## Deployed App
+        
+    https://wrmanns.github.io/WorkdayPlanner/
 
-    
-
-    
 
     ## Test
 
