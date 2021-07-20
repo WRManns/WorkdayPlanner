@@ -7,15 +7,16 @@ $(".currentDate").text(moment().format("dddd, MMMM Do"));
 
 function pageLoad() {
   //Checks local storage for saved notes associated with the hour blocks
-  $("#9 .note").val(localStorage.getItem("9"));
-  $("#10 .note").val(localStorage.getItem("10"));
-  $("#11 .note").val(localStorage.getItem("11"));
-  $("#12 .note").val(localStorage.getItem("12"));
-  $("#13 .note").val(localStorage.getItem("13"));
-  $("#14 .note").val(localStorage.getItem("14"));
-  $("#15 .note").val(localStorage.getItem("15"));
-  $("#16 .note").val(localStorage.getItem("16"));
-  $("#17 .note").val(localStorage.getItem("17"));
+  function checkStorage(){
+    $(".row").each(function () {
+      var rowID = $(this).attr("id");
+      var notes = localStorage.getItem(rowID)
+      if(notes) {
+        $(this).children(".note").val(notes)
+      }
+    })
+  } 
+  checkStorage()
 
   function hourColor() {
     //Iterating through the hour-block classes to check the hour ID against the current time
